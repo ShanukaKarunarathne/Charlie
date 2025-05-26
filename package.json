@@ -1,0 +1,13 @@
+{
+  "name": "inventory-manager",
+  "version": "1.0.0",
+  "description": "Simple inventory management system",
+  "main": "index.html",
+  "scripts": {
+    "build": "echo 'No build step required'",
+    "start": "echo 'Static site - no start command needed'"
+  },
+  "keywords": ["inventory", "management", "business"],
+  "author": "Your Name",
+  "license": "MIT"
+}

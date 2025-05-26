@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Manager</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-store"></i> Inventory Manager</h1>
+            <div class="date-selector">
+                <input type="date" id="selectedDate" value="">
+                <button onclick="loadDayData()"><i class="fas fa-search"></i> View Day</button>
+            </div>
+        </header>
+
+        <main>
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="section active">
+                <div class="stats-grid">
+                    <div class="stat-card cash">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <h3>Cash Total</h3>
+                        <p id="cashTotal">$0.00</p>
+                    </div>
+                    <div class="stat-card credit">
+                        <i class="fas fa-credit-card"></i>
+                        <h3>Credit Total</h3>
+                        <p id="creditTotal">$0.00</p>
+                    </div>
+                    <div class="stat-card expenses">
+                        <i class="fas fa-receipt"></i>
+                        <h3>Expenses</h3>
+                        <p id="expensesTotal">$0.00</p>
+                    </div>
+                    <div class="stat-card profit">
+                        <i class="fas fa-chart-line"></i>
+                        <h3>Today's Profit</h3>
+                        <p id="todayProfit">$0.00</p>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="showSection('inventory')">
+                        <i class="fas fa-boxes"></i> Add Inventory
+                    </button>
+                    <button class="btn btn-success" onclick="showSection('billing')">
+                        <i class="fas fa-file-invoice-dollar"></i> Create Bill
+                    </button>
+                    <button class="btn btn-warning" onclick="showSection('expenses')">
+                        <i class="fas fa-money-check-alt"></i> Add Expenses
+                    </button>
+                </div>
+
+                <div class="recent-activities">
+                    <h3>Recent Activities</h3>
+                    <div id="recentActivities"></div>
+                </div>
+            </section>
+
+            <!-- Inventory Section -->
+            <section id="inventory" class="section">
+                <div class="section-header">
+                    <h2><i class="fas fa-boxes"></i> Inventory Management</h2>
+                    <button class="btn btn-secondary" onclick="showSection('dashboard')">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
+                </div>
+
+                <form id="inventoryForm" class="form-grid">
+                    <div class="form-group">
+                        <label for="itemName">Item Name</label>
+                        <input type="text" id="itemName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="itemDescription">Description</label>
+                        <textarea id="itemDescription" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="itemQuantity">Quantity</label>
+                        <input type="number" id="itemQuantity" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="itemCost">Cost per Unit</label>
+                        <input type="number" id="itemCost" step="0.01" min="0" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Add to Inventory
+                    </button>
+                </form>
+
+                <div class="inventory-list">
+                    <h3>Current Inventory</h3>
+                    <div id="inventoryItems"></div>
+                </div>
+            </section>
+
+            <!-- Billing Section -->
+            <section id="billing" class="section">
+                <div class="section-header">
+                    <h2><i class="fas fa-file-invoice-dollar"></i> Create Bill</h2>
+                    <button class="btn btn-secondary" onclick="showSection('dashboard')">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
+                </div>
+
+                <form id="billingForm" class="form-grid">
+                    <div class="form-group">
+                        <label for="customerName">Customer Name</label>
+                        <input type="text" id="customerName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="saleItem">Select Item</label>
+                        <select id="saleItem" required>
+                            <option value="">Select an item</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="saleQuantity">Quantity</label>
+                        <input type="number" id="saleQuantity" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="sellingPrice">Selling Price per Unit</label>
+                        <input type="number" id="sellingPrice" step="0.01" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="paymentType">Payment Type</label>
+                        <select id="paymentType" required>
+                            <option value="paid">Paid</option>
+                            <option value="credit">Credit</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-shopping-cart"></i> Create Sale
+                    </button>
+                </form>
+
+                <div class="sales-list">
+                    <h3>Recent Sales</h3>
+                    <div id="salesList"></div>
+                </div>
+
+                <div class="credit-customers">
+                    <h3>Credit Customers</h3>
+                    <div id="creditCustomers"></div>
+                </div>
+            </section>
+
+            <!-- Expenses Section -->
+            <section id="expenses" class="section">
+                <div class="section-header">
+                    <h2><i class="fas fa-money-check-alt"></i> Expenses</h2>
+                    <button class="btn btn-secondary" onclick="showSection('dashboard')">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
+                </div>
+
+                <form id="expensesForm" class="form-grid">
+                    <div class="form-group">
+                        <label for="expenseDescription">Description</label>
+                        <input type="text" id="expenseDescription" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="expenseAmount">Amount</label>
+                        <input type="number" id="expenseAmount" step="0.01" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="expenseCategory">Category</label>
+                        <select id="expenseCategory" required>
+                            <option value="supplies">Supplies</option>
+                            <option value="utilities">Utilities</option>
+                            <option value="transport">Transport</option>
+                            <option value="marketing">Marketing</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-warning">
+                        <i class="fas fa-plus"></i> Add Expense
+                    </button>
+                </form>
+
+                <div class="expenses-list">
+                    <h3>Recent Expenses</h3>
+                    <div id="expensesList"></div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div id="loading" class="loading">
+        <div class="spinner"></div>
+        <p>Loading...</p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
